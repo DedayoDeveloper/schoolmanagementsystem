@@ -19,22 +19,25 @@
             <div class="col-md-4 mr-auto">
                 <button data-target="#addstudent" data-toggle="modal" type="button" class="btn btn-primary link">Add Student</button>
                 <button class="btn btn-danger" data-target="#ask_before_delete" data-toggle="modal" type="button" >- Delete </button>
+                
                 <div id="ask_before_delete" class="modal" tabindex="-1" role="dialog" aria-labelledby="approvePaymentLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
+                            
                             <div class="modal-header">
                                 <h5 class="modal-title">Warning!</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+                            
                             <div class="modal-body">
                                 <p class="mb-0">Do you want to delete this student from your class?</p>
-                                <div id="deleteMerchantRequest"></div>
+                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-dark closeModal_approve" data-dismiss="modal">No</button>
-                                <button class="btn btn-primary merchantDeleteRequestButton" type="submit">Yes</button>
+                                <button class="btn btn-primary deleteClassStudent"  type="submit">Yes</button>
                             </div>
                         </div>
                     </div>
@@ -90,11 +93,38 @@
             </div>
                                 
        </div>                          
+                                <hr>
+                                <br/>
+                                
+  <div>
+       <div class="col-md-12">
+                <form action="searchstudentforteacher" method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Search</label>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Enter Student Firstname" name="firstname">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary btn-sm" id = "searchstudentforteacher" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+</div>
+                                
+                                
+                                
+                                
+                                
 
-            <div class="dataTable">
-                <table id="myDataTable" class="table table-striped" cellspacing="0" width="100%" align="center">
+                                    <p class="col-md-8" style="margin-top: 10px;">
+                                        ${pagination} 
+                                    </p>    
+                <div class="table-responsive">
+            <table class="table table-bordered table-striped" style="font-size: 15px">
                     <thead>
-                        <tr>
+                        <tr class="blue-grey white-text">
+                            <th><input type="checkbox" class="masterCheck"></th> 
                             <th>S/N</th>
                             <th>Firstname</th>                                        
                             <th>Lastname</th>
@@ -107,7 +137,11 @@
                     <tbody>
                         <c:forEach items="${getClassStudents}" var = "getClassStudents" varStatus="status">
                             <tr>
-                                <td>${status.count + (page_num - 1)* 10}</td>
+                                <td>
+                                  <input type="checkbox" class="studentcollectionBox" value="${getClassStudents.id}">  
+                            <input type="hidden" value="${getClassStudents.id}">
+                                </td>
+                                <td>${status.count}</td>
                                 <td>${getClassStudents.firstname}</td>
                                 <td>${getClassStudents.lastname}</td>
                                 <td>${getClassStudents.studentclass}</td>
@@ -181,7 +215,7 @@
                 });
                     }, 3000);
                 } else {
-                    form.after('<div class="alert alert-danger text-center m-3">' + 'Failed update! Try again' + '</div>');
+                    form.after('<div class="alert alert-danger text-center m-3">' + 'Failed! Try again' + '</div>');
                     setTimeout(function () {
                         form.next().remove();
                         form.show('fast');
@@ -190,5 +224,9 @@
             });
         }
     });
+    
+    
+    
+    
 </script>
 

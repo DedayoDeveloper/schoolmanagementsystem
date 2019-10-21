@@ -5,13 +5,11 @@
  */
 package com.school.managementsystem;
 
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -29,6 +27,9 @@ import org.springframework.web.servlet.view.JstlView;
 public class WebConfig implements WebMvcConfigurer{
     
     
+    
+
+    
     @Bean
     public ViewResolver internalResourceViewResolver() {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
@@ -38,19 +39,9 @@ public class WebConfig implements WebMvcConfigurer{
         return bean;
     }
     
-//      @Bean
-//    public DriverManagerDataSource getDataSource() {
-//        DriverManagerDataSource dataSourceBuilder = new DriverManagerDataSource();
-//
-//        dataSourceBuilder.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//        dataSourceBuilder.setUrl("jdbc:mysql://localhost:3306/sms?useSSL=false");
-////            dataSourceBuilder.getConnection("jdbc:mysql://localhost:3306/sms","root@localhost");
-//        dataSourceBuilder.setUsername("root");
-//        dataSourceBuilder.setPassword("");
-//        return dataSourceBuilder;
-//
-//    }
 
+ 
+   
    
     
     @Override
@@ -62,5 +53,35 @@ public class WebConfig implements WebMvcConfigurer{
 }
     
     
+//    
+//    @Bean
+//    public JavaMailSender getJavaMailSender() {
+//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//        mailSender.setHost("smtp.gmail.com");
+//        mailSender.setPort(587);
+//
+//        mailSender.setUsername("my.gmail@gmail.com");
+//        mailSender.setPassword("password");
+//
+//        Properties props = mailSender.getJavaMailProperties();
+//        props.put("mail.transport.protocol", "smtp");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.debug", "true");
+//
+//        return mailSender;
+//    }
+//    
+    
+   
+    
+//    @Bean
+//    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+//        StrictHttpFirewall firewall = new StrictHttpFirewall();
+//        firewall.setAllowUrlEncodedSlash(true);
+//        return firewall;
+//    }
+//
+
     
 }

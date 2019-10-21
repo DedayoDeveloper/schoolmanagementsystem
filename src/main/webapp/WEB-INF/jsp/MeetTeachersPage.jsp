@@ -40,15 +40,15 @@
 
                     <thead>
                         <tr class="blue-grey white-text">
-                            
+                    
                             <th>Firstname</th>                                        
                             <th>Lastname</th>
-                            <th>Phone-Number</th>
                             <th>Sex</th>
                             <th>Subject Teaching</th>
                              <th>Class Teaching</th>
-                             <th></th>
-                          
+                             <th>Complain About</th>
+                             <th style=" color: greenyellow;">Good Comment</th>
+                    
                             
                            
                        </tr>
@@ -60,13 +60,17 @@
                             <tr class="table">
                                 <td>${getAllTeachers.firstname}</td>
                                  <td>${getAllTeachers.lastname}</td>
-                                 <td>${getAllTeachers.phonenumber}</td>
                                  <td>${getAllTeachers.sex}</td>
                                  <td>${getAllTeachers.subjectname}</td>
                                  <td>${getAllTeachers.classteaching}</td>
                                  
+                                 
                                  <td>
-       <a href="${pageContext.request.contextPath}/sendTeachermessage/${getAllTeachers.firstname}/${getAllTeachers.lastname}/${getAllTeachers.phonenumber}" class="btn btn-primary link">Send Message</a>
+       <a href="${pageContext.request.contextPath}/sendTeachermessage/${getAllTeachers.firstname}/${getAllTeachers.lastname}/${getAllTeachers.phonenumber}" class="btn btn-primary link">Complain</a>
+                                 </td>
+                                 
+                                                <td>
+       <a href="${pageContext.request.contextPath}/commentmessage/${getAllTeachers.firstname}/${getAllTeachers.lastname}/${getAllTeachers.username}" class="btn btn-primary link">Comment</a>
                                  </td>
                            
                             </tr>

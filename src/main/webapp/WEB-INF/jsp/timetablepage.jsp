@@ -82,6 +82,7 @@
                     <th>Monday</th>
                       <c:forEach items="${gettimetable}" var = "gettimetable" varStatus="status">
                     <td>${gettimetable.monday}</td>
+                 
                     </c:forEach>
                 </tr>
 

@@ -30,7 +30,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-dark closeModal_approve" data-dismiss="modal">No</button>
-                                <button class="btn btn-primary merchantDeleteRequestButton" type="submit">Yes</button>
+                                <button class="btn btn-primary teacherdeleteButton" type="submit">Yes</button>
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                                     <!--<label id="addstudentstyle">Student Number</label>-->
                                     <input type="text" name="classassigned" placeholder="Class Assigned" class="form-control">
                                 </div>
-                                    <div class="form-group" style=" color: white;">
+                                <div class="form-group" style=" color: white;">
                                     <!--<label id="addstudentstyle">Student Number</label>-->
                                     <input type="text" name="phonenumber" placeholder="Phonenumber" class="form-control">
                                 </div>
@@ -98,12 +98,35 @@
 
         </div>
 
+        <hr>
 
 
-        <div class="dataTable">
-            <table id="myDataTable" class="table table-striped" cellspacing="0" width="100%" align="center">
+        <div>
+            <div class="col-md-12">
+                <form action="searchteacherforadmin" method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Search</label>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Enter Username" name="username">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary btn-sm" id = "searchteacherforadminuser" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p class="col-md-8" style="margin-top: 10px;">
+            ${pagination} 
+        </p> 
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" style="font-size: 15px">
                 <thead>
-                    <tr>
+                    <tr class="blue-grey white-text">
+                        <th><input type="checkbox" class="masterCheck"></th> 
                         <th>S/N</th>
                         <th>Firstname</th>                                        
                         <th>Lastname</th>
@@ -117,7 +140,11 @@
                 <tbody>
                     <c:forEach items="${getAllTeachers}" var = "getAllTeachers" varStatus="status">
                         <tr>
-                            <td>${status.count + (page_num - 1)* 10}</td>
+                            <td>
+                                <input type="checkbox" class="teachercollectionBox" value="${getAllTeachers.id}">  
+                                <input type="hidden" value="${getAllTeachers.id}">
+                            </td>
+                            <td>${status.count}</td>
                             <td>${getAllTeachers.firstname}</td>
                             <td>${getAllTeachers.lastname}</td>
                             <td>${getAllTeachers.classassigned}</td>
@@ -180,7 +207,7 @@
             name: 'classassigned',
             rules: 'required'
         },
-         {
+        {
             name: 'phonenumber',
             rules: 'required'
         },
@@ -223,12 +250,12 @@
                         form.show('fast');
                         $('#addteacher').modal('hide');
                         $('#result1').html(spinner);
-                    var url = 'teachermanagement';
-                    $.get(url,function (result) {
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
+                        var url = 'teachermanagement';
+                        $.get(url, function (result) {
+                            $('#result1').html(result);
+                            console.log(url);
+                            console.log(result);
+                        });
                     }, 3000);
                 } else {
                     form.after('<div class="alert alert-danger text-center m-3">' + 'Failed update! Try again' + '</div>');

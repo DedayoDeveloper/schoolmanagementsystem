@@ -11,6 +11,7 @@ package com.school.managementsystem.model;
  */
 public class Teacher {
     
+    private String id;
     private String firstname;
     private String lastname;
     private String username;
@@ -22,7 +23,36 @@ public class Teacher {
     private String classteaching;
     private String teacher;
     private String phonenumber;
+    private String attendancemark;
+    private String attendance;
+
+    public String getAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(String attendance) {
+        this.attendance = attendance;
+    }
+
+    public String getAttendancemark() {
+        return attendancemark;
+    }
+
+    public void setAttendancemark(String attendancemark) {
+        this.attendancemark = attendancemark;
+    }
+    
+    
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
   
+    
 
     public String getPhonenumber() {
         return phonenumber;

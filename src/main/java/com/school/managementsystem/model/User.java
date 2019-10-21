@@ -104,9 +104,44 @@ public class User {
     private String label;
     private String labelicon;
     private String labeltitle;
-    private String firstname, surname, phonenumber, date, id;
+    private String firstname, surname, phonenumber, date, id , lastname, sex, department,classassigned;
     private String pageid;
 
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getClassassigned() {
+        return classassigned;
+    }
+
+    public void setClassassigned(String classassigned) {
+        this.classassigned = classassigned;
+    }
+
+    
+    
+    
     public String getRole() {
         return role;
     }

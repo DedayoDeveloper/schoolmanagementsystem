@@ -36,7 +36,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-dark closeModal_approve" data-dismiss="modal">No</button>
-                                <button class="btn btn-primary merchantDeleteRequestButton" type="submit">Yes</button>
+                                <button class="btn btn-primary subjectDeleteRequestButton" type="submit">Yes</button>
                             </div>
                         </div>
                     </div>
@@ -86,12 +86,14 @@
             </div>
         
         
+        <hr>
+        <br/>
         
-        
-         <div class="dataTable">
-                <table id="myDataTable" class="table table-striped" cellspacing="0" width="100%" align="center">
+                <div class="table-responsive">
+            <table class="table table-bordered table-striped" style="font-size: 15px">
                     <thead>
-                        <tr>
+                        <tr class="blue-grey white-text">
+                            <th><input type="checkbox" class="masterCheck"></th> 
                             <th>S/N</th>
                             <th>Subject</th>                                        
                             <th>Class Teaching</th>
@@ -103,7 +105,11 @@
                     <tbody>
                         <c:forEach items="${GetSubjectForTeacher}" var = "GetSubjectForTeacher" varStatus="status">
                             <tr>
-                                <td>${status.count + (page_num - 1)* 10}</td>
+                                  <td>
+                                  <input type="checkbox" class="subjectcollectionBox" value="${GetSubjectForTeacher.id}">  
+                                   <input type="hidden" value="${GetSubjectForTeacher.id}">
+                                </td>
+                                <td>${status.count}</td>
                                 <td>${GetSubjectForTeacher.subjectname}</td>
                                 <td>${GetSubjectForTeacher.classteaching}</td>
                                 <td>${GetSubjectForTeacher.department}</td>

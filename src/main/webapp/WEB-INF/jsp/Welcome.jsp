@@ -578,6 +578,37 @@ $(document).on('click', '#searchTerminal', function (e) {
             
             
             
+            
+               $(document).on('click', '#searchstudentforteacherattendance', function (e) {
+                e.preventDefault();
+                $('#result1').html(spinner);
+                var form = $(this).closest('form');
+                var dataVal = form.serialize();
+                var url = 'searchstudentforteacherattendance';
+                $.get(url, dataVal, function (result) {
+                    $('#result1').html(result);
+                    console.log('url:' + url);
+                });
+
+            });
+            
+            
+            
+            
+                $(document).on('click', '#searchstudentforteacher', function (e) {
+                e.preventDefault();
+                $('#result1').html(spinner);
+                var form = $(this).closest('form');
+                var dataVal = form.serialize();
+                var url = 'searchstudentforteacher';
+                $.get(url, dataVal, function (result) {
+                    $('#result1').html(result);
+                    console.log('url:' + url);
+                });
+
+            });
+            
+            
                  $(document).on('click', '#searchStudent', function (e) {
                 e.preventDefault();
                 $('#result1').html(spinner);
@@ -648,6 +679,69 @@ $(document).on('click', '#searchTerminal', function (e) {
 //            });
 
 
+
+
+                       $(document).on('click', '#searchstudentforteacherrecord', function (e) {
+                e.preventDefault();
+                $('#result1').html(spinner);
+                var form = $(this).closest('form');
+                var dataVal = form.serialize();
+                var url = "searchstudentforteacherrecord";
+                $.get(url, dataVal, function (result) {
+                    $('#result1').html(result);
+                    console.log(url);
+                    console.log(result);
+                });
+            });
+
+
+
+
+
+
+
+                      $(document).on('click', '#searchteacherforadminuser', function (e) {
+                e.preventDefault();
+                $('#result1').html(spinner);
+                var form = $(this).closest('form');
+                var dataVal = form.serialize();
+                var url = "searchteacherforadmin";
+                $.get(url, dataVal, function (result) {
+                    $('#result1').html(result);
+                    console.log(url);
+                    console.log(result);
+                });
+            });
+                
+
+                
+
+                
+                
+                
+                
+                $(document).on('click', '#searchmyteacherforattendance', function (e) {
+                e.preventDefault();
+                $('#result1').html(spinner);
+                var form = $(this).closest('form');
+                var dataVal = form.serialize();
+                var url = "searchteacherforattendance";
+                $.get(url, dataVal, function (result) {
+                    $('#result1').html(result);
+                    console.log(url);
+                    console.log(result);
+                });
+            });
+                
+                
+                
+                
+                
+                
+
+
+            
+
                 $(document).on('click', '#submitattendance', function (e) {
                 e.preventDefault();
                 $('#result1').html(spinner);
@@ -683,20 +777,20 @@ $(document).on('click', '#searchTerminal', function (e) {
 
 
 
-               $(document).on('click', '#resettable', function (e) {
-                e.preventDefault();
-                var id = document.getElementById('resetid').value;
-                $('#result1').html(spinner);
-                var form = $(this).closest('form');
-                var dataVal = form.serialize();
-                var url = "reset/"+id;
-                $.get(url, dataVal, function (result) {
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
-            
+//               $(document).on('click', '#resettable', function (e) {
+//                e.preventDefault();
+//                var id = document.getElementById('resetid').value;
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form');
+//                var dataVal = form.serialize();
+//                var url = "reset/"+id;
+//                $.get(url, dataVal, function (result) {
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
+//            
 //             function myReloadFunc() {
 //             var id = document.getElementById('resetid').value;
 //             console.log(id);
@@ -719,121 +813,121 @@ $(document).on('click', '#searchTerminal', function (e) {
 //            }); 
             
             
-
-            $(document).on('click', '#searchTerminalReports', function (e) {
-                e.preventDefault();
-                $('#result1').html(spinner);
-                var form = $(this).closest('form');
-                var dataVal = form.serialize();
-                var url = 'searchterminalreport';
-                $.get(url, dataVal, function (result) {
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
-            function show(select_item) {
-                if (select_item == "MERCHANT") {
-                    hiddenDiv.style.visibility = 'visible';
-                    hiddenDiv.style.display = 'block';
-                    Form.fileURL.focus();
-                }
-                else {
-                    hiddenDiv.style.visibility = 'hidden';
-                    hiddenDiv.style.display = 'none';
-                }
-            }
-
-            $(document).on('click', '#searchTransactions', function (e) {
-                e.preventDefault();
-                $('#result1').html(spinner);
-                var form = $(this).closest('form');
-                var dataVal = form.serialize();
-                var url = 'searchtransactions';
-                $.get(url, dataVal, function (result) { 
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
+//
+//            $(document).on('click', '#searchTerminalReports', function (e) {
+//                e.preventDefault();
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form');
+//                var dataVal = form.serialize();
+//                var url = 'searchterminalreport';
+//                $.get(url, dataVal, function (result) {
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
+//            function show(select_item) {
+//                if (select_item == "MERCHANT") {
+//                    hiddenDiv.style.visibility = 'visible';
+//                    hiddenDiv.style.display = 'block';
+//                    Form.fileURL.focus();
+//                }
+//                else {
+//                    hiddenDiv.style.visibility = 'hidden';
+//                    hiddenDiv.style.display = 'none';
+//                }
+//            }
+//
+//            $(document).on('click', '#searchTransactions', function (e) {
+//                e.preventDefault();
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form');
+//                var dataVal = form.serialize();
+//                var url = 'searchtransactions';
+//                $.get(url, dataVal, function (result) { 
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
             
             
-               $(document).on('click', '#searchsmstable', function (e) {
-                e.preventDefault();
-                $('#result1').html(spinner);
-                var form = $(this).closest('form');
-                var dataVal = form.serialize();
-                var url = 'searchsmstable';
-                $.get(url, dataVal, function (result) { 
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
+//               $(document).on('click', '#searchsmstable', function (e) {
+//                e.preventDefault();
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form');
+//                var dataVal = form.serialize();
+//                var url = 'searchsmstable';
+//                $.get(url, dataVal, function (result) { 
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
 
-            $(document).on('click', '#searchForFiles', function (e) {
-                e.preventDefault();
-                $('#result1').html(spinner);
-                var form = $(this).closest('form');
-                var dataVal = form.serialize();
-                var url = 'searchuploadedfiles';
-                $.get(url, dataVal, function (result) {
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
+//            $(document).on('click', '#searchForFiles', function (e) {
+//                e.preventDefault();
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form');
+//                var dataVal = form.serialize();
+//                var url = 'searchuploadedfiles';
+//                $.get(url, dataVal, function (result) {
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
 
-            $(document).on('click', '#searchUsers', function (e) {
-                e.preventDefault();
-                $('#result1').html(spinner);
-                var form = $(this).closest('form');
-                var dataVal = form.serialize();
-                var url = 'searchusers';
-                $.get(url, dataVal, function (result) {
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
-
-            $(document).on('click', '#searchMobileMoney', function (e) {
-                e.preventDefault();
-                $('#result1').html(spinner);
-                var form = $(this).closest('form');
-                var dataVal = form.serialize();
-                var url = 'searchmobilemoney';
-                $.get(url, dataVal, function (result) {
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
-             $(document).on('click', '#searchTerminalwithDifferentGlobalVariable', function (e) {
-                e.preventDefault();
-                $('#result1').html(spinner);
-                var form = $(this).closest('form'); 
-                var dataVal = form.serialize();
-                var url = 'searchterminalwithdifferentglobalvariable';
-                $.get(url, dataVal, function (result) {
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
+//            $(document).on('click', '#searchUsers', function (e) {
+//                e.preventDefault();
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form');
+//                var dataVal = form.serialize();
+//                var url = 'searchusers';
+//                $.get(url, dataVal, function (result) {
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
+//
+//            $(document).on('click', '#searchMobileMoney', function (e) {
+//                e.preventDefault();
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form');
+//                var dataVal = form.serialize();
+//                var url = 'searchmobilemoney';
+//                $.get(url, dataVal, function (result) {
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
+//             $(document).on('click', '#searchTerminalwithDifferentGlobalVariable', function (e) {
+//                e.preventDefault();
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form'); 
+//                var dataVal = form.serialize();
+//                var url = 'searchterminalwithdifferentglobalvariable';
+//                $.get(url, dataVal, function (result) {
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
               
-            $(document).on('click', '#searchMobileMoneyReversal', function (e) {
-                e.preventDefault();
-                $('#result1').html(spinner);
-                var form = $(this).closest('form');
-                var dataVal = form.serialize();
-                var url = 'searchmobilemoneyreversal';
-                $.get(url, dataVal, function (result) {
-                    $('#result1').html(result);
-                    console.log(url);
-                    console.log(result);
-                });
-            });
+//            $(document).on('click', '#searchMobileMoneyReversal', function (e) {
+//                e.preventDefault();
+//                $('#result1').html(spinner);
+//                var form = $(this).closest('form');
+//                var dataVal = form.serialize();
+//                var url = 'searchmobilemoneyreversal';
+//                $.get(url, dataVal, function (result) {
+//                    $('#result1').html(result);
+//                    console.log(url);
+//                    console.log(result);
+//                });
+//            });
 
             var page_row;
             var page_row_figure = 10;
@@ -950,6 +1044,175 @@ $(document).on('click','.addRole',function (event){
        });
 
        
+       
+       
+       
+       
+       
+            var StudentCollectionItemArray = [];
+            $(document).on('click', '.deleteClassStudent', function () {
+                var url = "deleteStudent";
+                console.log('Hello world');
+                var data = StudentCollectionItemArray.join(",");
+                console.log(data);
+                $.post(url, {array: data}, function (result) {
+                    if (result === "success") {
+                        $('#ask_before_delete').modal('hide');
+                        $('#result1').html(spinner);
+                        var url = "myclass";
+                        $.get(url, function (result) {
+                            $('#result1').html(result);
+                        });
+                        console.log(result);
+                    }
+                });
+            });
+
+            $(document).on('change', '.studentcollectionBox', function () {
+                var chk = $(this);
+                var id = chk.next().val();
+                if (chk.prop("checked")) {
+                    StudentCollectionItemArray.push(id);
+                } else {
+                    if (StudentCollectionItemArray.indexOf(id) > -1) {
+                        var i = StudentCollectionItemArray.indexOf(id);
+                        StudentCollectionItemArray.splice(i, 1);
+                    }
+                }
+            });
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+              var StudentCollectionItemArray = [];
+            $(document).on('click', '.subjectDeleteRequestButton', function () {
+                var url = "deleteSubject";
+                console.log('Hello world');
+                var data = StudentCollectionItemArray.join(",");
+                console.log(data);
+                $.post(url, {array: data}, function (result) {
+                    if (result === "success") {
+                        $('#ask_before_delete').modal('hide');
+                        $('#result1').html(spinner);
+                        var url = "mysubjects";
+                        $.get(url, function (result) {
+                            $('#result1').html(result);
+                        });
+                        console.log(result);
+                    }
+                });
+            });
+
+            $(document).on('change', '.subjectcollectionBox', function () {
+                var chk = $(this);
+                var id = chk.next().val();
+                if (chk.prop("checked")) {
+                    StudentCollectionItemArray.push(id);
+                } else {
+                    if (StudentCollectionItemArray.indexOf(id) > -1) {
+                        var i = StudentCollectionItemArray.indexOf(id);
+                        StudentCollectionItemArray.splice(i, 1);
+                    }
+                }
+            });
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+              var ParentStudentCollectionItemArray = [];
+            $(document).on('click', '.deleteParentStudent', function () {
+                var url = "deleteStudentforparent";
+                console.log('Hello world');
+                var data = ParentStudentCollectionItemArray.join(",");
+                console.log(data);
+                $.post(url, {array: data}, function (result) {
+                    if (result === "success") {
+                        $('#ask_before_delete').modal('hide');
+                        $('#result1').html(spinner);
+                        var url = "mystudent";
+                        $.get(url, function (result) {
+                            $('#result1').html(result);
+                        });
+                        console.log(result);
+                    }
+                });
+            });
+
+            $(document).on('change', '.parentstudentcollectionBox', function () {
+                var chk = $(this);
+                var id = chk.next().val();
+                if (chk.prop("checked")) {
+                    ParentStudentCollectionItemArray.push(id);
+                } else {
+                    if (ParentStudentCollectionItemArray.indexOf(id) > -1) {
+                        var i = ParentStudentCollectionItemArray.indexOf(id);
+                        ParentStudentCollectionItemArray.splice(i, 1);
+                    }
+                }
+            });
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+            
+              var TeacherStudentCollectionItemArray = [];
+            $(document).on('click', '.teacherdeleteButton', function () {
+                var url = "deleteteacher";
+                console.log('Hello world');
+                var data = TeacherStudentCollectionItemArray.join(",");
+                console.log(data);
+                $.post(url, {array: data}, function (result) {
+                    if (result === "success") {
+                        $('#ask_before_delete').modal('hide');
+                        $('#result1').html(spinner);
+                        var url = "teachermanagement";
+                        $.get(url, function (result) {
+                            $('#result1').html(result);
+                        });
+                        console.log(result);
+                    }
+                });
+            });
+
+            $(document).on('change', '.teachercollectionBox', function () {
+                var chk = $(this);
+                var id = chk.next().val();
+                if (chk.prop("checked")) {
+                    TeacherStudentCollectionItemArray.push(id);
+                } else {
+                    if (TeacherStudentCollectionItemArray.indexOf(id) > -1) {
+                        var i = TeacherStudentCollectionItemArray.indexOf(id);
+                        TeacherStudentCollectionItemArray.splice(i, 1);
+                    }
+                }
+            });
        
        
        

@@ -5,6 +5,7 @@
  */
 package com.school.managementsystem.service;
 
+import com.school.managementsystem.model.Message;
 import com.school.managementsystem.model.ParentModel;
 import com.school.managementsystem.model.Student;
 import com.school.managementsystem.model.Teacher;
@@ -18,7 +19,7 @@ import java.util.List;
 public interface ParentInterface{
     
     public boolean RegsiterParentUser(String firstname,String lastname, String username, String email, String phonenumber, String password);
-    public List<ParentModel> getAllParentUsers();
+    public List<ParentModel> getAllParentUsers(String limit);
     public List<Student> searchStudent(String table_name, String search_by, String search_details);
      public List<Teacher> GetAllTeachersForParents();
      public String getTeacherUsername(String phonenumber);
@@ -29,5 +30,11 @@ public interface ParentInterface{
       public List<User> getParentComplain();
       public boolean getMyChild(String firstname,String lastname,String sex,String age,String username);
       public List<Student> getMyChildList(String username);
+      public String getTeacherName(String firstname,String lastname);
+      public List<Message> getAllMessagesSentByParent(String username);
+      public int[] deleteStudentForParent(String array[]);
+       public List<ParentModel> getAllParentUsersForProfile(String username);
+        public boolean UpdateParentProfile(String firstname,String lastname,String email,String phonenumber,String name);
+//        public void SendEmail(String toAddress, String fromAddress, String subject, String msgBody);
 
 }

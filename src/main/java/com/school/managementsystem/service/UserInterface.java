@@ -17,4 +17,6 @@ public interface UserInterface {
        public String getUserRoles(String username);
        public List<User> getUserByRole(String userrole);
        public String SelectUsertypeName(String username);
+        public List<User> searchTeacherForAdmin(String username);
+        public int[] deleteTeacherForAdmin(String array[]);
 }

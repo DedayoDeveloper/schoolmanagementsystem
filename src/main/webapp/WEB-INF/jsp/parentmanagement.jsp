@@ -17,8 +17,8 @@
     <div class="card-header" align="center">MANAGE PARENTS</div>
     <div class="card-body">
         <div class="row"> 
-         <div class="col-md-4 mr-auto">
-         <button class="btn btn-danger" data-target="#ask_before_delete" data-toggle="modal" type="button" >- Delete Parent</button>
+            <div class="col-md-4 mr-auto">
+                <button class="btn btn-danger" data-target="#ask_before_delete" data-toggle="modal" type="button" >- Delete Parent</button>
                 <div id="ask_before_delete" class="modal" tabindex="-1" role="dialog" aria-labelledby="approvePaymentLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -39,44 +39,71 @@
                         </div>
                     </div>
                 </div>
-        
-        
-        </div>
-        </div>
-        
-            <div class="dataTable">
-                <table id="myDataTable" class="table table-striped" cellspacing="0" width="100%" align="center">
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th>Firstname</th>                                        
-                            <th>Lastname</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Phonenumber</th>
-                           
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${getAllParentUsers}" var = "getAllParentUsers" varStatus="status">
-                            <tr>
-                                <td>${status.count + (page_num + 1)* 10}</td>
-                                <td>${getAllParentUsers.firstname}</td>
-                                <td>${getAllParentUsers.lastname}</td>
-                                <td>${getAllParentUsers.username}</td>
-                                <td>${getAllParentUsers.email}</td>
-                                <td>${getAllParentUsers.phonenumber}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+
+
             </div>
+        </div>
         
+        <hr>
         
-        
-        
-        
-        
+        <div>
+            <div class="col-md-12">
+                <form action="searchparentforadmin" method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Search</label>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Enter Parent Email" name="email">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary btn-sm" id = "searchstudentforteacher" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p class="col-md-8" style="margin-top: 10px;">
+            ${pagination} 
+        </p>    
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" style="font-size: 15px">
+                <thead>
+                    <tr class="blue-grey white-text">
+                        <th><input type="checkbox" class="masterCheck"></th> 
+                        <th>S/N</th>
+                        <th>Firstname</th>                                        
+                        <th>Lastname</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phonenumber</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${getAllParentUsers}" var = "getAllParentUsers" varStatus="status">
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="parentstudentcollectionBox" value="${getAllParentUsers.id}">  
+                                <input type="hidden" value="${getAllParentUsers.id}">
+                            </td>
+                            <td>${status.count}</td>
+                            <td>${getAllParentUsers.firstname}</td>
+                            <td>${getAllParentUsers.lastname}</td>
+                            <td>${getAllParentUsers.username}</td>
+                            <td>${getAllParentUsers.email}</td>
+                            <td>${getAllParentUsers.phonenumber}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+
     </div>
 </div>
 

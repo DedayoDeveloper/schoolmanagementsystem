@@ -15,22 +15,45 @@
         
         
         
+        
+     <div>
+       <div class="col-md-12">
+                <form action="searchstudentforteacherrecord" method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Search</label>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Enter Student Firstname" name="firstname">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary btn-sm" id = "searchstudentforteacherrecord" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+</div>
+        
+        
+        <p class="col-md-8" style="margin-top: 10px;">
+            ${pagination} 
+        </p> 
        <div class="table-responsive">
             <table class="table table-bordered table-striped" style="font-size: 15px">
 
                     <thead>
-                        <tr>
+                        <tr class="blue-grey white-text">
                             <th>S/N</th>
                             <th>Firstname</th>                                        
                             <th>Lastname</th>
                             <th>Sex</th>
+                            <th></th>
+                            <th></th>
                            
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${getClassStudents}" var = "getClassStudents" varStatus="status">
                             <tr>
-                                <td>${status.count + (page_num - 1)* 10}</td>
+                                <td>${status.count}</td>
                                 <td>${getClassStudents.firstname}</td>
                                 <td>${getClassStudents.lastname}</td>
                                 <td>${getClassStudents.sex}</td>
