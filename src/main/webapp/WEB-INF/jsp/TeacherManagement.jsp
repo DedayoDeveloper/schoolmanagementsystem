@@ -59,10 +59,18 @@
                                     <!--<label id="addstudentstyle">Lastname</label>-->
                                     <input type="text" name="lastname" placeholder="Lastname" class="form-control">
                                 </div>
-                                <div class="form-group" style=" color: white;">
-                                    <!--<label id="addstudentstyle">Student Number</label>-->
-                                    <input type="text" name="classassigned" placeholder="Class Assigned" class="form-control">
+
+
+                                <div class="form-group" style=" color: black;">
+                                    <label>Assign Class</label>
+                                    <select class="form-control" name="classassigned" id="classassigned">
+                                        <c:forEach items="${getSchoolClassess}" var = "getSchoolClassess" varStatus="status">
+
+                                            <option value="${getSchoolClassess.classname}">${getSchoolClassess.classname}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
+
                                 <div class="form-group" style=" color: white;">
                                     <!--<label id="addstudentstyle">Student Number</label>-->
                                     <input type="text" name="phonenumber" placeholder="Phonenumber" class="form-control">

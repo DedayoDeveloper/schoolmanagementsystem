@@ -1218,6 +1218,142 @@ $(document).on('click','.addRole',function (event){
        
        
        
+       
+       
+       
+       
+       
+       
+       
+       
+            
+              var ParentCollectionItemArray = [];
+            $(document).on('click', '.DeleteParentButton', function () {
+                var url = "deleteparent";
+                console.log('Hello world');
+                var data = ParentCollectionItemArray.join(",");
+                console.log(data);
+                $.post(url, {array: data}, function (result) {
+                    if (result === "success") {
+                        $('#ask_before_delete').modal('hide');
+                        $('#result1').html(spinner);
+                        var url = "parentmanagement";
+                        $.get(url, function (result) {
+                            $('#result1').html(result);
+                        });
+                        console.log(result);
+                    }
+                });
+            });
+
+            $(document).on('change', '.parentstudentcollectionBox', function () {
+                var chk = $(this);
+                var id = chk.next().val();
+                if (chk.prop("checked")) {
+                    ParentCollectionItemArray.push(id);
+                } else {
+                    if (ParentCollectionItemArray.indexOf(id) > -1) {
+                        var i = ParentCollectionItemArray.indexOf(id);
+                        ParentCollectionItemArray.splice(i, 1);
+                    }
+                }
+            });
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+         
+              var StaffCollectionItemArray = [];
+            $(document).on('click', '.deleteStaff', function () {
+                var url = "deletestaff";
+                console.log('Hello world');
+                var data = StaffCollectionItemArray.join(",");
+                console.log(data);
+                $.post(url, {array: data}, function (result) {
+                    if (result === "success") {
+                        $('#ask_before_deletestaff').modal('hide');
+                        $('#result1').html(spinner);
+                        var url = "nonteaching";
+                        $.get(url, function (result) {
+                            $('#result1').html(result);
+                        });
+                        console.log(result);
+                    }
+                });
+            });
+
+            $(document).on('change', '.staffcollectionBox', function () {
+                var chk = $(this);
+                var id = chk.next().val();
+                if (chk.prop("checked")) {
+                    StaffCollectionItemArray.push(id);
+                } else {
+                    if (StaffCollectionItemArray.indexOf(id) > -1) {
+                        var i = StaffCollectionItemArray.indexOf(id);
+                        StaffCollectionItemArray.splice(i, 1);
+                    }
+                }
+            });
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+              var ClassCollectionItemArray = [];
+            $(document).on('click', '.deleteClass', function () {
+                var url = "deleteclass";
+                console.log('Hello world');
+                var data = ClassCollectionItemArray.join(",");
+                console.log(data);
+                $.post(url, {array: data}, function (result) {
+                    if (result === "success") {
+                        $('#ask_before_deleteclass').modal('hide');
+                        $('#result1').html(spinner);
+                        var url = "classmanagement";
+                        $.get(url, function (result) {
+                            $('#result1').html(result);
+                        });
+                        console.log(result);
+                    }
+                });
+            });
+
+            $(document).on('change', '.classcollectionBox', function () {
+                var chk = $(this);
+                var id = chk.next().val();
+                if (chk.prop("checked")) {
+                    ClassCollectionItemArray.push(id);
+                } else {
+                    if (ClassCollectionItemArray.indexOf(id) > -1) {
+                        var i = ClassCollectionItemArray.indexOf(id);
+                        ClassCollectionItemArray.splice(i, 1);
+                    }
+                }
+            });
+       
+       
+       
+       
+       
+       
+       
+       
+       
       
         </script>
         

@@ -90,6 +90,7 @@ public class ParentService implements ParentInterface {
          class parentMapper implements RowMapper<ParentModel> {
         public ParentModel mapRow(ResultSet rs, int arg1) throws SQLException {
             ParentModel parent = new ParentModel();
+            parent.setId(rs.getInt("id"));
              parent.setFirstname(rs.getString("firstname"));
              parent.setLastname(rs.getString("lastname"));
              parent.setUsername(rs.getString("username"));
@@ -102,7 +103,7 @@ public class ParentService implements ParentInterface {
     
          @Override
          public List<ParentModel> getAllParentUsers(String limit){
-         String sql = "select firstname,lastname,username,email,phonenumber from users where usertypename = 'parent' " + limit;
+         String sql = "select id,firstname,lastname,username,email,phonenumber from users where usertypename = 'parent' " + limit;
          List<ParentModel> getAllParents = jdbcTemplate.query(sql, new parentMapper());
          return getAllParents;
          }
@@ -110,7 +111,7 @@ public class ParentService implements ParentInterface {
          
             @Override
          public List<ParentModel> getAllParentUsersForProfile(String username){
-         String sql = "select firstname,lastname,username,email,phonenumber from users where usertypename = 'parent' and username = ?";
+         String sql = "select id,firstname,lastname,username,email,phonenumber from users where usertypename = 'parent' and username = ?";
          List<ParentModel> getAllParents = jdbcTemplate.query(sql, new Object[]{username}, new parentMapper());
          return getAllParents;
          }
@@ -204,7 +205,7 @@ public class ParentService implements ParentInterface {
         
         @Override
         public List<Teacher> GetAllTeachersForParents(){
-        String sql = "select firstname,lastname,phonenumber,classassigned,sex from users where usertypename = 'teacher'";
+        String sql = "select id,firstname,lastname,phonenumber,classassigned,sex from users where usertypename = 'teacher'";
         List<Teacher> getTeachers = jdbcTemplate.query(sql, new teacherParentMapper());
         return getTeachers;
         }
@@ -417,6 +418,30 @@ public class ParentService implements ParentInterface {
      }
      
      
+     
+     
+     
+             @Override
+     public int[] deleteParentForAdmin(String array[]){
+     String sql = "DELETE FROM users WHERE id =";
+     
+        String query[] = new String[array.length];
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+
+            sb.append(sql).append("");
+            sb.append("'").append(array[i]).append("'");
+            query[i] = sb.toString();
+            System.out.println("sqllll:" + sb.toString());
+            sb.setLength(0);
+        }
+      int[] result = jdbcTemplate.batchUpdate(query);
+        System.out.println("");
+
+        System.out.println("deleted:" + result.length);
+
+        return result;
+     }
      
      
      

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.school.managementsystem.ManagementsystemApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.321 s - in com.school.managementsystem.ManagementsystemApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.079 s - in com.school.managementsystem.ManagementsystemApplicationTests

@@ -35,6 +35,7 @@ public interface ParentInterface{
       public int[] deleteStudentForParent(String array[]);
        public List<ParentModel> getAllParentUsersForProfile(String username);
         public boolean UpdateParentProfile(String firstname,String lastname,String email,String phonenumber,String name);
+        public int[] deleteParentForAdmin(String array[]);
 //        public void SendEmail(String toAddress, String fromAddress, String subject, String msgBody);
 
 }

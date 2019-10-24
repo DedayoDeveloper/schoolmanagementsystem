@@ -15,11 +15,14 @@ C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\m
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\UserEmail.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\service\UserInterface.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\StudentRecords.java
+C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\Subject.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\util\Pagination.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\MyWebInitializer.java
+C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\NonTeaching.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\User.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\Teacher.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\service\ReportService.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\SpringSecurityConfig.java
+C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\Classess.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\service\ParentInterface.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\service\ParentService.java

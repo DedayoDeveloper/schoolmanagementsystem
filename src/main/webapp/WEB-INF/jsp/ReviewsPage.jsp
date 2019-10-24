@@ -13,7 +13,7 @@
     <div class="card-header" align="center">Teachers Reviews</div>
     <div class="card-body">
         
-        <h5 style="text-align: center;">ATTENDANCE RATINGS</h5>
+        <h5 style="text-align: center;">RATINGS</h5>
  <div class="table-responsive">
             <table class="table table-bordered table-striped" style="font-size: 15px">
                 <thead>
@@ -48,7 +48,7 @@
                 <thead>
                      <tr class="blue-grey white-text">
                         
-                        <th>complains</th>                                        
+                        <th>Complains</th>                                        
                         
                    
                     </tr>
@@ -56,7 +56,7 @@
                 <tbody>
                     <tr>
                         
-                        <td></td>
+                        <td>${complaincount}</td>
                      
                         
                     </tr>
@@ -66,6 +66,31 @@
         </div>
                         
                         
+                        
+                        
+                               <div class="table-responsive">
+            <table class="table table-bordered table-striped" style="font-size: 15px">
+                <thead>
+                     <tr class="blue-grey white-text">
+                        
+                        <th>Comments</th>                                        
+                        
+                   
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        
+                        <td>${commentcount}</td>
+                     
+                        
+                    </tr>
+            
+                </tbody>
+            </table>
+        </div>
+                        
+                    
                                        
                          <div class="table-responsive">
             <table class="table table-bordered table-striped" style="font-size: 15px">
@@ -80,13 +105,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                     <c:forEach items="${getTeacherAverage}" var = "getTeacherAverage" varStatus="status">
                     <tr>
-                        
-                        <td></td>
+                       
+                        <td>${getTeacherAverage.subjectname}</td>
+                        <td>${getTeacherAverage.classteaching}</td>
+                        <td>${getTeacherAverage.aboveaverage}</td>
+                        <td>${getTeacherAverage.belowaverage}</td>
                      
                         
                     </tr>
-            
+             </c:forEach>
                 </tbody>
             </table>
         </div>

@@ -34,7 +34,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-dark closeModal_approve" data-dismiss="modal">No</button>
-                                <button class="btn btn-primary merchantDeleteRequestButton" type="submit">Yes</button>
+                                <button class="btn btn-primary DeleteParentButton" type="submit">Yes</button>
                             </div>
                         </div>
                     </div>

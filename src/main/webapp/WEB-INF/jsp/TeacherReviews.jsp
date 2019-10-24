@@ -25,8 +25,7 @@
     <div class="table-responsive">
             <table class="table table-bordered table-striped" style="font-size: 15px">
                 <thead>
-                    <tr class="blue-grey white-text">
-                        <th><input type="checkbox" class="masterCheck"></th> 
+                    <tr class="blue-grey white-text"> 
                         <th>S/N</th>
                         <th>Firstname</th>                                        
                         <th>Lastname</th>
@@ -42,10 +41,7 @@
                
                              <c:forEach items="${getAllTeachers}" var = "getAllTeachers" varStatus="status">
                         <tr>
-                            <td>
-                                <input type="checkbox" class="teachercollectionBox" value="${getAllTeachers.id}">  
-                                <input type="hidden" value="${getAllTeachers.id}">
-                            </td>
+                          
                             <td>${status.count}</td>
                             <td>${getAllTeachers.firstname}</td>
                             <td>${getAllTeachers.lastname}</td>

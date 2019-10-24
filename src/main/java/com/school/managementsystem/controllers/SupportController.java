@@ -173,7 +173,7 @@ public class SupportController implements ServletContextAware{
             response.setContentType("text/html");
             PrintWriter pw = response.getWriter();
 
-            response.sendRedirect("/TAMS/downloaderror");
+            response.sendRedirect("/downloaderror");
 
             pw.close();
         }
@@ -284,7 +284,7 @@ public class SupportController implements ServletContextAware{
             response.setContentType("text/html");
             PrintWriter pw = response.getWriter();
 
-            response.sendRedirect("/TAMS/downloaderror");
+            response.sendRedirect("/downloaderror");
 
             pw.close();
         }
@@ -293,6 +293,125 @@ public class SupportController implements ServletContextAware{
     
     
     
+             
+             
+             
+             
+             
+             
+             
+             
+             @RequestMapping(value = "/downloadteacherattendance", method = {RequestMethod.POST, RequestMethod.GET})
+    public void downloadTeacherAttendanceForAdmin(HttpServletRequest request,
+            HttpServletResponse response, @RequestParam String reportType,
+            @RequestParam(defaultValue = "") String fromDate,
+            @RequestParam(defaultValue = "") String toDate) throws IOException {
+        String subSql;
+        String placeHolders[] = new String[2];
+//        String username = request.getParameter("username");
+        
+
+//        System.out.println("username " + username);
+        subSql = " WHERE DATE(date) BETWEEN ? AND ?";
+//        String subSql1 = " WHERE DATE(creation_date) BETWEEN ? AND ? AND de42='" + userId + "' ";
+          System.out.println(subSql);
+        placeHolders[0] = fromDate;
+        placeHolders[1] = toDate;
+//        placeHolders[2] = username;
+        System.out.println("sqb: " + subSql);
+        String sql = "";
+      
+      
+            sql = "SELECT (@s:= @s+1) AS SN, firstname,lastname,sex,attendance,date FROM tbl_teacherattendance, (SELECT @s:= 0) AS sn " + subSql + " ORDER BY date DESC";
+        
+
+        System.out.println("fromDate: " + fromDate);
+        System.out.println("toDate: " + toDate);
+        System.out.println("sql: " + sql);
+//        String[] columns = {"SN", "Date", "PAN", "MTI", "Terminal", "Type", "Amount", "STAN",
+//            "MCC", "RRN", "MID", "Merchant", "Currency", "Responsecode"};
+        //GT Ghana line 
+        String[] columns = {"SN", "Firstname", "Lastname", "Sex", "Attendance", "Date"}; 
+
+        String reportTitle = "Attendance Report";
+        List<Map<String, Object>> getTableFields = report.getRecords(sql, columns.length, placeHolders);
+// System.out.println("getTableFields"+getTableFields);
+
+        List<String> getColumnNames = Arrays.asList(columns);
+
+        String filepath = null;
+        String filepath2 = null;
+        String filename = null;
+        if (!getTableFields.isEmpty()) {
+            switch (reportType) {
+                case "pdf":
+                    filepath = getGenerateReport(getTableFields, getColumnNames, reportTitle, "pdf");
+                    openPdf(response, request, filepath);
+                    break;
+                case "csv":
+                    filepath = getGenerateReport(getTableFields, getColumnNames, reportTitle, "csv");
+                    openCsv(response, request, filepath);
+                    break;
+                case "zip":
+                    try {
+                        filepath = getGenerateReport(getTableFields, getColumnNames, reportTitle, "pdf");
+
+                        filepath2 = getGenerateReport(getTableFields, getColumnNames, reportTitle, "csv");
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    String location = getPathToFile("zip");
+                    filename = "service charge" + today + ".zip";
+                    final int BUFFER = 2048;
+                    try {
+                        BufferedInputStream origin = null;
+                        FileOutputStream dest = new FileOutputStream(location);
+                        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
+                        byte data[] = new byte[BUFFER];
+
+                        String files[] = {filepath, filepath2};
+                        for (String filee : files) {
+                            FileInputStream fi = new FileInputStream(filee);
+                            origin = new BufferedInputStream(fi, BUFFER);
+                            ZipEntry entry = new ZipEntry(filee);
+                            out.putNextEntry(entry);
+                            int count;
+                            while ((count = origin.read(data, 0, BUFFER)) != -1) {
+                                out.write(data, 0, count);
+                            }
+                            origin.close();
+                        }
+                        out.close();
+
+                    } catch (IOException e) {
+                        System.out.println("error:" + e.getMessage());
+                    }
+
+                    openZip(response, request, location);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            response.setContentType("text/html");
+            PrintWriter pw = response.getWriter();
+
+            response.sendRedirect("/downloaderror");
+
+            pw.close();
+        }
+
+    }
+    
+             
+             
+             
+             
+             
+             
+             
+             
     
     
     
