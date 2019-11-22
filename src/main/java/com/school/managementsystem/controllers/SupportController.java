@@ -38,8 +38,9 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -220,7 +221,7 @@ public class SupportController implements ServletContextAware{
 //        String res = ResponseInterpreter.generateResponse(responseCode);
 //        String resp ="'" + res + "'";
 //        String reportTitle = "Report for transactions for " + res; 
-        String reportTitle = "Report for transactions for "; 
+        String reportTitle = "Student Result Reports "; 
         List<Map<String, Object>> getTableFields = report.getRecords(sql, columns.length, placeHolders);
 // System.out.println("getTableFields"+getTableFields);
 
@@ -636,8 +637,10 @@ public class SupportController implements ServletContextAware{
     @RequestMapping(value = "/downloaderror", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView downloaderror(HttpServletRequest request, @RequestParam(defaultValue = "1") int page_num) {
         ModelAndView model = new ModelAndView();
-
-        model.setViewName("downloaderror");
+         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        model.addObject("username", name);
+        model.setViewName("ErrorLanding");
         return model;
     }
     

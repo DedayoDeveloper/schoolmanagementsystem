@@ -8,6 +8,7 @@ package com.school.managementsystem.service;
 import com.school.managementsystem.model.Classess;
 import com.school.managementsystem.model.Message;
 import com.school.managementsystem.model.NonTeaching;
+import com.school.managementsystem.model.ParentModel;
 import com.school.managementsystem.model.Student;
 import com.school.managementsystem.model.Subject;
 import com.school.managementsystem.model.User;
@@ -39,6 +40,18 @@ public class UserService implements UserInterface{
     
     
     
+    @Override
+    public boolean CheckIfEmailExist(String email){
+    boolean check = false;
+    String sql = "select * from users where email = ?";
+    String checkEmail = jdbcTemplate.queryForObject(
+                sql, new Object[]{email}, String.class);
+    if(checkEmail.isEmpty()){
+        
+        check = true;
+    }
+    return check;
+    }
     
     
     
@@ -130,6 +143,40 @@ public class UserService implements UserInterface{
         searchMyStudent = jdbcTemplate.query(sql, new Object[]{username},new adminUserMapper());
 
         return searchMyStudent.size() > 0 ? searchMyStudent : null;
+    }
+    
+        
+        
+        
+              
+      class adminParentMapper implements RowMapper<ParentModel> {
+        public ParentModel mapRow(ResultSet rs, int arg1) throws SQLException {
+             ParentModel parentmodel = new ParentModel();
+            parentmodel.setId(rs.getInt("id"));
+            parentmodel.setFirstname(rs.getString("firstname"));
+            parentmodel.setLastname(rs.getString("lastname"));
+            parentmodel.setEmail(rs.getString("email"));
+            parentmodel.setPhonenumber(rs.getString("phonenumber"));
+            parentmodel.setUsername(rs.getString("username"));
+            parentmodel.setEmergencycontact(rs.getString("emergencycontact"));
+            return parentmodel;
+        }
+    }
+        
+        
+        
+        
+                @Override
+        public List<ParentModel> searchParentForAdmin(String email) {
+        String sql = "";
+        List<ParentModel> searchMyParent;
+            sql = "select id,firstname,lastname,username,phonenumber,email,emergencycontact from users where email = ? and usertypename = 'parent'";
+      
+        System.out.println("sqqq:" + sql);
+
+        searchMyParent = jdbcTemplate.query(sql, new Object[]{email},new adminParentMapper());
+
+        return searchMyParent.size() > 0 ? searchMyParent : null;
     }
     
     

@@ -1,0 +1,22 @@
+
+@import "scss/functions";
+@import "scss/variables";
+
+html, body{
+	font-family: 'Roboto', sans-serif;
+}
+
+.font1{
+	font-family: 'Roboto', sans-serif;
+}
+.font2{
+	font-family: 'Montserrat', sans-serif !important;
+}
+.box-shadow{
+	box-shadow: 0 0 15px 1px rgba(0,0,0,0.4);
+}
+@each $grey, $value in $grays {
+	.bg-grey#{$grey}{
+		background-color: $value;
+	}
+}

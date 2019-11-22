@@ -1,4 +1,5 @@
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\controllers\MainController.java
+C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\service\EmailSenderImpl.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\DatabaseConfig.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\Message.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\ParentModel.java
@@ -17,6 +18,7 @@ C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\m
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\StudentRecords.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\Subject.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\util\Pagination.java
+C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\service\EmailInterface.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\MyWebInitializer.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\NonTeaching.java
 C:\Users\oreoluwa\Desktop\management\managementsystem\src\main\java\com\school\managementsystem\model\User.java

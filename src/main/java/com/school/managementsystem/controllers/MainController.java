@@ -15,6 +15,7 @@ import com.school.managementsystem.model.Subject;
 import com.school.managementsystem.model.Teacher;
 import com.school.managementsystem.model.TimeTable;
 import com.school.managementsystem.model.User;
+import com.school.managementsystem.service.EmailSenderImpl;
 import com.school.managementsystem.service.ParentService;
 import com.school.managementsystem.service.TeacherInterface;
 import com.school.managementsystem.service.UserInterface;
@@ -23,11 +24,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
+
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,37 +60,64 @@ public class MainController {
 
     @Autowired
     TeacherInterface teacher;
+    
+    @Autowired
+    EmailSenderImpl emailsender;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView LandingPage() {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("landingpage");
+    
+    
+      @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public ModelAndView LandingPage(Device device)throws AuthenticationException  {
+         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
+        String deviceType = "browser";
+        String platform = "browser";
+         
+//        Device currentDevice = DeviceUtils.getCurrentDevice(servletRequest);s
+        if (device.isNormal()) {
+            deviceType = "browser";
+        } else if (device.isMobile()) {
+            deviceType = "mobile";
+        } else if (device.isTablet()) {
+            deviceType = "tablet";
+        }
+          System.out.println("DEVICETYPE " + deviceType);
+        platform = device.getDevicePlatform().name();
+         
+        if (platform.equalsIgnoreCase("UNKNOWN")) {
+            platform = "browser";
+        }
+         model.setViewName("landingpage");
         return model;
-
     }
+    
+   
 
     @ResponseBody
     @RequestMapping(value = "/registerparentuser", method = {RequestMethod.POST})
     public String RegisterParent(HttpServletRequest request, HttpSession session, String firstname, String lastname, String username,
             String email, String phonenumber, String password) {
-
+            System.out.println("WE ARE HERE!");
         String alertMessage = "failed";
         ModelAndView model = new ModelAndView();
         firstname = request.getParameter("firstname");
         lastname = request.getParameter("lastname");
         username = request.getParameter("username");
         email = request.getParameter("email");
+//        boolean checkEmail = userinterface.CheckIfEmailExist(email);
+//        if(checkEmail == true)
         phonenumber = request.getParameter("phonenumber");
         password = request.getParameter("password");
-
+        System.out.println("GOT HERE");
         boolean RegisterParent = parent.RegsiterParentUser(firstname, lastname, username, email, phonenumber, password);
+        System.out.println("RegisterParent = " + RegisterParent);
         if (RegisterParent = true) {
 
-            String fromAddress = "Schoomanagement@gmail.com";
+//            String toAddress = "Schoomanagement@gmail.com";
             String subject = "A secure guide on how to use this application";
             String msgBody = "welcome to School management system";
 
-//            parent.SendEmail(email, fromAddress, subject, msgBody);
+//            emailsender.sendEmailMessage(email, subject, msgBody);
             System.out.println("USER HAS BEEN REGISTERED");
             alertMessage = "GUARDIAN SUCCESSFULLY CREATED";
         }
@@ -94,6 +127,7 @@ public class MainController {
     @RequestMapping(value = "/welcome", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView WelcomePage() {
         ModelAndView model = new ModelAndView();
+         model.addObject("title", "SMS");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         System.out.println("USERNAME " + name);
@@ -117,10 +151,10 @@ public class MainController {
         return model;
     }
 
-    @RequestMapping(value = "/login", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/signin", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
         ModelAndView model = new ModelAndView();
-        model.addObject("title", "TAMS");
+        model.addObject("title", "SMS");
 
         if (error != null) {
             model.addObject("error", "Invalid username and password!");
@@ -130,7 +164,7 @@ public class MainController {
             model.addObject("msg", "You've been logged out successfully.");
         }
 
-        model.setViewName("login");
+        model.setViewName("landingpage");
 
         return model;
     }
@@ -138,6 +172,7 @@ public class MainController {
     @RequestMapping(value = "/searchstudent", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView SearchStudentPage() {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         model.setViewName("SearchStudent");
         return model;
     }
@@ -148,10 +183,10 @@ public class MainController {
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
         String TeacherClass = teacher.getTeacherClass(name);
-
+        model.addObject("title", "SMS");
         List<Student> getClassStudent = teacher.GetClassStudents(TeacherClass, "");
         int total = getClassStudent.size();
-        String link = "/myclass" + "?page_num=";
+        String link = "/managementsystem/myclass" + "?page_num=";
         Pagination pg = new Pagination(page_num, total);
         String limit = pg.getLimit();
         List<Student> getClassStudents = teacher.GetClassStudents(TeacherClass, limit);
@@ -168,10 +203,11 @@ public class MainController {
     @RequestMapping(value = "/teachermanagement", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView CreateTeacherPage(@RequestParam(defaultValue = "1") int page_num) {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<Classess> getSchoolClassess = userinterface.getAllSchoolClassess();
         List<Teacher> getAllTeacher = teacher.GetAllTeachers("");
         int total = getAllTeacher.size();
-        String link = "/teachermanagement" + "?page_num=";
+        String link = "/managementsystem/teachermanagement" + "?page_num=";
         Pagination pg = new Pagination(page_num, total);
         String limit = pg.getLimit();
         List<Teacher> getAllTeachers = teacher.GetAllTeachers(limit);
@@ -240,9 +276,10 @@ public class MainController {
     @RequestMapping(value = "/parentmanagement", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView getAllParentUsers(@RequestParam(defaultValue = "1") int page_num) {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<ParentModel> getAllParentUser = parent.getAllParentUsers("");
         int total = getAllParentUser.size();
-        String link = "/studentattendance" + "?page_num=";
+        String link = "/managementsystem/studentattendance" + "?page_num=";
         Pagination pg = new Pagination(page_num, total);
         String limit = pg.getLimit();
         List<ParentModel> getAllParentUsers = parent.getAllParentUsers(limit);
@@ -259,10 +296,10 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
-
+        model.addObject("title", "SMS");
         List<Student> StudentAttendance = teacher.StudentAttendance(name, "");
         int total = StudentAttendance.size();
-        String link = "/studentattendance" + "?page_num=";
+        String link = "/managementsystem/studentattendance" + "?page_num=";
         Pagination pg = new Pagination(page_num, total);
         String limit = pg.getLimit();
         List<Student> StudentAttendanceList = teacher.StudentAttendance(name, limit);
@@ -284,6 +321,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         model.addObject("firstname", firstname);
         model.addObject("lastname", lastname);
         model.addObject("sex", sex);
@@ -296,7 +334,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
-
+        
         firstname = request.getParameter("firstname");
         request.getSession().setAttribute("firstname", firstname);
         lastname = request.getParameter("lastname");
@@ -338,6 +376,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<Teacher> GetSubjectForTeacher = teacher.GetAllTeacherSubjects(name);
         List<Classess> getSchoolClassess = userinterface.getAllSchoolClassess();
         model.addObject("getSchoolClassess", getSchoolClassess);
@@ -372,6 +411,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<TimeTable> gettimetable = teacher.getTimeTable(name);
         model.addObject("gettimetable", gettimetable);
         model.setViewName("timetablepage");
@@ -425,6 +465,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<Message> getMessages = parent.getAllMessagesSentByParent(name);
         model.addObject("getMessages", getMessages);
         model.setViewName("MessagePage");
@@ -434,10 +475,11 @@ public class MainController {
     @RequestMapping(value = "/searchteacherforparent", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView SearchTeacherForParentPage(String subject, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         subject = request.getParameter("subject");
         List<Teacher> getTeacherDetails = parent.searchTeacherForParent(subject);
         model.addObject("getTeacherDetails", getTeacherDetails);
-        model.setViewName("MeetTeachersPage");
+        model.setViewName("MeetTeacherPageTwo");
         return model;
     }
 
@@ -448,6 +490,7 @@ public class MainController {
         String name = auth.getName();
         String value = "failed";
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         complain = request.getParameter("complain");
         boolean sendParentComplain = parent.SendComplainToAdmin(name, complain);
         if (sendParentComplain = true) {
@@ -464,6 +507,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         String TeacherClass = teacher.getTeacherClass(name);
         model.addObject("TeacherClass", TeacherClass);
         String firstname = req.getParameter("firstname");
@@ -482,6 +526,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         String TeacherClass = teacher.getTeacherClass(name);
         model.addObject("TeacherClass", TeacherClass);
         String firstname = req.getParameter("firstname");
@@ -500,6 +545,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         String TeacherClass = teacher.getTeacherClass(name);
         model.addObject("TeacherClass", TeacherClass);
         String firstname = req.getParameter("firstname");
@@ -516,6 +562,7 @@ public class MainController {
     @RequestMapping(value = "/searchParentStudent", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView SearchParentStudentPage(@RequestParam String table_name, @RequestParam String search_by, @RequestParam String search_string) {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<Student> SearchStudent = parent.searchStudent(table_name, search_by, search_string);
         model.addObject("SearchStudent", SearchStudent);
         model.setViewName("SearchStudent");
@@ -525,6 +572,7 @@ public class MainController {
     @RequestMapping(value = "/meetteachers", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView meetTeachersPage() {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<Teacher> getAllTeachers = parent.GetAllTeachersForParents();
         model.addObject("getAllTeachers", getAllTeachers);
         model.setViewName("MeetTeachersPage");
@@ -536,6 +584,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
 //    String getTeachername = parent.getTeacherUsername(phonenumber);
 //        System.out.println("TEACHER USERNAME IS = " + getTeachername);
 //    List<Teacher> getAllTeacher = parent.GetAllTeacherParentSubjects(getTeachername);
@@ -549,6 +598,7 @@ public class MainController {
     @RequestMapping(value = "/complains", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView ComplainsPage() {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         model.setViewName("complainspage");
         return model;
     }
@@ -556,6 +606,7 @@ public class MainController {
     @RequestMapping(value = "/getStudentDetails/{firstname}/{lastname}/{sex}", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView StudentDetailsPage(@PathVariable String firstname, @PathVariable String lastname, @PathVariable String sex) {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<Student> getStudentDetails = parent.getStudentDetails(firstname, lastname);
         model.addObject("getStudentDetails", getStudentDetails);
         model.setViewName("studentdetails");
@@ -565,6 +616,7 @@ public class MainController {
     @RequestMapping(value = "/complainmessages", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView ComplainsMessagesPage() {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         List<User> getComplain = parent.getParentComplain();
         model.addObject("getComplain", getComplain);
         model.setViewName("ComplainMessagesAdmin");
@@ -609,10 +661,10 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         String TeacherClass = teacher.getTeacherClass(name);
-
+        model.addObject("title", "SMS");
         List<Student> getClassStudent = teacher.GetClassStudents(TeacherClass, "");
         int total = getClassStudent.size();
-        String link = "/studentrecords" + "?page_num=";
+        String link = "/managementsystem/studentrecords" + "?page_num=";
         Pagination pg = new Pagination(page_num, total);
         String limit = pg.getLimit();
         List<Student> getClassStudents = teacher.GetClassStudents(TeacherClass, limit);
@@ -629,6 +681,7 @@ public class MainController {
     @RequestMapping(value = "/seerecords/{firstname}/{lastname}/{sex}", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView SeeRecordPage(ModelAndView model, @PathVariable String firstname, @PathVariable String lastname, @PathVariable String sex) {
         model.addObject("firstname", firstname);
+        model.addObject("title", "SMS");
         model.addObject("lastname", lastname);
         model.addObject("sex", sex);
         List<StudentRecords> getStudentRecords = teacher.getStudentRecords(firstname, lastname);
@@ -643,6 +696,7 @@ public class MainController {
     public ModelAndView UpdateRecordPage(ModelAndView model, @PathVariable String firstname, @PathVariable String lastname) {
         model.addObject("firstname", firstname);
         model.addObject("lastname", lastname);
+        model.addObject("title", "SMS");
         model.setViewName("UpdateRecordPage");
         return model;
     }
@@ -670,12 +724,13 @@ public class MainController {
         if (assessment.contains("total")) {
             int score = Integer.parseInt(result);
             System.out.println("RESULT = " + score);
+            String teacher = userinterface.getTeacherForSubject(subject, TeacherClass);
             if (score > 50) {
-                String teacher = userinterface.getTeacherForSubject(subject, TeacherClass);
+                
                 System.out.println("TEACHER FOR MY COURSE IS " + teacher);
                 boolean setScoreAboveAverage = userinterface.UpdateAboveAverage(subject, TeacherClass, teacher);
             } else if (score <= 50) {
-                String teacher = userinterface.getTeacherForSubject(subject, TeacherClass);
+               
                 System.out.println("TEACHER FOR MY COURSE IS " + teacher);
                 boolean setScoreBelowAverage = userinterface.UpadetBelowAverage(subject, TeacherClass, teacher);
             }
@@ -698,6 +753,9 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         List<Student> getMyChild = parent.getMyChildList(name);
+         List<Classess> getSchoolClassess = userinterface.getAllSchoolClassess();
+        model.addObject("getSchoolClassess", getSchoolClassess);
+        model.addObject("title", "SMS");
         model.addObject("getMyChild", getMyChild);
         model.setViewName("MyStudent");
         return model;
@@ -713,8 +771,9 @@ public class MainController {
         lastname = request.getParameter("lastname");
         sex = request.getParameter("sex");
         age = request.getParameter("age");
+        String studentclass = request.getParameter("studentclass");
 
-        boolean getMyChild = parent.getMyChild(firstname, lastname, sex, age, name);
+        boolean getMyChild = parent.getMyChild(firstname, lastname, sex, age, name,studentclass);
         if (getMyChild == true) {
             value = "success";
             model.setViewName("MyStudent");
@@ -775,18 +834,23 @@ public class MainController {
 
         return message;
     }
-
+    
+    
+    
     @RequestMapping(value = "/myprofile", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView MyProfilePage(ModelAndView model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         List<ParentModel> getParentProfile = parent.getAllParentUsersForProfile(name);
         List<Student> getMyChild = parent.getMyChildList(name);
+        model.addObject("title", "SMS");
         model.addObject("getMyChild", getMyChild);
         model.addObject("getParentProfile", getParentProfile);
         model.setViewName("MyProfilePage");
         return model;
     }
+    
+    
 
     @ResponseBody
     @RequestMapping(value = "/updateprofile", method = {RequestMethod.GET, RequestMethod.POST})
@@ -798,8 +862,9 @@ public class MainController {
         String lastname = request.getParameter("lastname");
         String email = request.getParameter("email");
         String phonenumber = request.getParameter("phonenumber");
+        String emergencycontact = request.getParameter("emergencycontact");
 
-        boolean updateProfile = parent.UpdateParentProfile(firstname, lastname, email, phonenumber, name);
+        boolean updateProfile = parent.UpdateParentProfile(firstname, lastname, email, phonenumber,emergencycontact, name);
         if (updateProfile == true) {
             value = "success";
         }
@@ -812,6 +877,7 @@ public class MainController {
         String name = auth.getName();
         System.out.println("WE GOT HERE");
         List<Message> getTeacherMessages = teacher.getAllMessagesSentByParent();
+        model.addObject("title", "SMS");
         model.addObject("getTeacherMessages", getTeacherMessages);
         model.setViewName("MessagesTeacherPage");
         return model;
@@ -820,12 +886,15 @@ public class MainController {
     @RequestMapping(value = "/searchteacherforadmin", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView SearchTeacherPage(HttpServletRequest request, String username) {
         ModelAndView model = new ModelAndView();
+        model.addObject("title", "SMS");
         username = request.getParameter("username");
         List<User> searchTeacher = userinterface.searchTeacherForAdmin(username);
         model.addObject("searchTeacher", searchTeacher);
         model.setViewName("teachermanagementtwo");
         return model;
     }
+    
+    
 
     @ResponseBody
     @RequestMapping(value = "/deleteteacher", method = {RequestMethod.GET, RequestMethod.POST})
@@ -845,11 +914,14 @@ public class MainController {
         return message;
     }
 
+    
+    
     @RequestMapping(value = "/teacherattendance", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView TeacherAttendancePage(ModelAndView model, @RequestParam(defaultValue = "1") int page_num) {
+        model.addObject("title", "SMS");
         List<Teacher> getAllTeacher = teacher.getAllTeachersForAttendance("");
         int total = getAllTeacher.size();
-        String link = "/teacherattendance" + "?page_num=";
+        String link = "/managementsystem/teacherattendance" + "?page_num=";
         Pagination pg = new Pagination(page_num, total);
         String limit = pg.getLimit();
         List<Teacher> getAllTeachers = teacher.getAllTeachersForAttendance(limit);
@@ -865,6 +937,8 @@ public class MainController {
         return model;
     }
 
+    
+    
     @RequestMapping(value = "/markattendanceforteacher/{firstname}/{lastname}/{sex}/{username}", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView MarkTeacherAttendance(ModelAndView model, @PathVariable String firstname, @PathVariable String lastname,
             @PathVariable String sex, @PathVariable String username, HttpServletRequest request) {
@@ -872,9 +946,17 @@ public class MainController {
         model.addObject("lastname", lastname);
         model.addObject("sex", sex);
         model.addObject("username", username);
+        model.addObject("title", "SMS");
         model.setViewName("TeacherAttendanceMarkingPage");
         return model;
     }
+    
+    
+    
+    
+    
+    
+    
 
     @RequestMapping(value = "/searchteacherforattendance", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView searchteacherforattendance(HttpServletRequest request, ModelAndView model) {
@@ -886,12 +968,19 @@ public class MainController {
         }
         LocalDate localDate = LocalDate.now();
         String currentdate = DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate);
+        model.addObject("title", "SMS");
         model.addObject("currentdate", currentdate);
         model.addObject("SearchTeacherAttendance", SearchTeacherAttendance);
         model.setViewName("TeacherAttendancePageTwo");
 
         return model;
     }
+    
+    
+    
+    
+    
+    
 
     @ResponseBody
     @RequestMapping(value = "/markteacherattendance", method = {RequestMethod.POST, RequestMethod.GET})
@@ -914,12 +1003,16 @@ public class MainController {
         }
         return value;
     }
+    
+    
+    
 
     @RequestMapping(value = "/teacherreviews", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView TeacheReviewsPage(ModelAndView model, @RequestParam(defaultValue = "1") int page_num) {
+        model.addObject("title", "SMS");
         List<Teacher> getAllTeacher = teacher.GetAllTeachers("");
         int total = getAllTeacher.size();
-        String link = "/teacherreviews" + "?page_num=";
+        String link = "/managementsystem/teacherreviews" + "?page_num=";
         Pagination pg = new Pagination(page_num, total);
         String limit = pg.getLimit();
         List<Teacher> getAllTeachers = teacher.GetAllTeachers(limit);
@@ -930,6 +1023,11 @@ public class MainController {
         model.setViewName("TeacherReviews");
         return model;
     }
+    
+    
+    
+    
+    
 
     @RequestMapping(value = "/teacherreviewpage/{username}", method = {RequestMethod.GET})
     public ModelAndView ReviewPage(ModelAndView model, @PathVariable String username) {
@@ -939,6 +1037,7 @@ public class MainController {
         String commentcount = userinterface.getCommentsSentForTeacher(username);
         List<Subject> getTeacherAverage = userinterface.getAverageForTeacher(username);
         model.addObject("getTeacherAverage", getTeacherAverage);
+        model.addObject("title", "SMS");
         model.addObject("commentcount", commentcount);
         model.addObject("complaincount", complaincount);
         model.addObject("absentattendance", absentattendance);
@@ -947,12 +1046,16 @@ public class MainController {
         model.setViewName("ReviewsPage");
         return model;
     }
+    
+    
+    
 
     @RequestMapping(value = "/commentmessage/{firstname}/{lastname}/{username}", method = {RequestMethod.GET})
     public ModelAndView CommentPage(ModelAndView model, @PathVariable String firstname, @PathVariable String lastname, @PathVariable String username) {
         model.addObject("firstname", firstname);
         model.addObject("lastname", lastname);
         model.addObject("username", username);
+        model.addObject("title", "SMS");
         model.setViewName("CommentPage");
         return model;
     }
@@ -973,6 +1076,8 @@ public class MainController {
         model.setViewName("CommentPage");
         return value;
     }
+    
+    
 
     @ResponseBody
     @RequestMapping(value = "/deleteparent", method = {RequestMethod.GET, RequestMethod.POST})
@@ -1009,12 +1114,13 @@ public class MainController {
     public ModelAndView NonTeachingStaffRegisterPage(ModelAndView model,@RequestParam(defaultValue = "1") int page_num) {
         List<NonTeaching> getAllNonTeachingStaffs = userinterface.getAllNonTeachingStaff("");
          int total = getAllNonTeachingStaffs.size();
-        String link = "/nonteaching" + "?page_num=";
+        String link = "/managementsystem/nonteaching" + "?page_num=";
         Pagination pg = new Pagination(page_num, total);
         String limit = pg.getLimit();
         List<NonTeaching> getAllNonTeachingStaff = userinterface.getAllNonTeachingStaff(limit);
         pg.setLink(link);
         String pages = pg.getControls();
+        model.addObject("title", "SMS");
         model.addObject("pagination", pages);
         model.addObject("getAllNonTeachingStaff", getAllNonTeachingStaff);
         model.setViewName("NonTeachingPage");
@@ -1041,6 +1147,12 @@ public class MainController {
         model.setViewName("NonTeachingPage");
         return value;
     }
+    
+    
+    
+    
+    
+    
 
     @ResponseBody
     @RequestMapping(value = "/deletestaff", method = {RequestMethod.GET, RequestMethod.POST})
@@ -1072,14 +1184,24 @@ public class MainController {
         model.setViewName("ClassManagement");
         return value;
     }
+    
+    
+    
 
     @RequestMapping(value = "/classmanagement", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView ClassManagementPage(ModelAndView model) {
         List<Classess> getAllClassess = userinterface.getAllSchoolClassess();
         model.addObject("getAllClassess", getAllClassess);
+        model.addObject("title", "SMS");
         model.setViewName("ClassManagement");
         return model;
     }
+    
+    
+    
+    
+    
+    
 
     @ResponseBody
     @RequestMapping(value = "/deleteclass", method = {RequestMethod.GET, RequestMethod.POST})
@@ -1101,14 +1223,23 @@ public class MainController {
 
     
     
+    
+    
+    
+    
       @RequestMapping(value = "/getclassdetails/{classname}", method = RequestMethod.GET)
     public ModelAndView GetClassDetailsForAdmin(@PathVariable String classname) {
         ModelAndView model = new ModelAndView();
         String classteacher = userinterface.getClassTeacherForAdmin(classname);
         List<Student>  getClassStudents = userinterface.getClassStudentsForAdmin(classname);
+          System.out.println("getClassStudents + " + getClassStudents);
+        if(getClassStudents.isEmpty()){
+        model.addObject("error", "No Student or Teacher registered to class");
+        }
         model.addObject("getClassStudents", getClassStudents);
         model.addObject("classteacher", classteacher);
         model.addObject("classname", classname);
+        model.addObject("title", "SMS");
         model.setViewName("ClassDetailsPage");
         return model;
 
@@ -1119,6 +1250,90 @@ public class MainController {
     
     
     
+      @RequestMapping(value = "/logout", method = {RequestMethod.GET})
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+            System.out.println("DEBUGGING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            String username = auth.getName();
+            System.out.println("USERNAME!!!!!!!!!!!!!!!!!!!!!" + username);
+           
+        }
+
+        return "redirect:/logout";
+    }
     
+    
+   
+    
+    
+    
+    
+    
+    
+    @RequestMapping(value="/searchparentforadmin",method={RequestMethod.POST,RequestMethod.GET})
+    public ModelAndView SearchParentForAdmin(HttpServletRequest request,ModelAndView model){
+    String value = "failed";
+    String email = request.getParameter("email");
+        System.out.println("GOT HERE!!");
+    List<ParentModel> SearchParent = userinterface.searchParentForAdmin(email);
+    model.addObject("SearchParent", SearchParent);
+    model.setViewName("ParentManagementTwo");
+    return model;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+      @RequestMapping(value = "/viewchildren/{firstname}/{lastname}/{username}/{email}", method = {RequestMethod.GET, RequestMethod.POST})
+       public ModelAndView ViewChildrenPage(ModelAndView model,@PathVariable String firstname,
+               @PathVariable String lastname,@PathVariable String username,@PathVariable String email) {
+           
+           List<Student> getChildList = parent.getMyChildList(username);
+           model.addObject("getChildList", getChildList);
+           model.addObject("firstname", firstname);
+           model.addObject("lastname", lastname);
+           model.addObject("username", username);
+           model.addObject("email", email);
+        model.setViewName("ViewChildren");
+        return model;
+    }
+    
+//       
+//       @RequestMapping(value="/studentreport/{firstname}/{lastname}/{studentclass}",method={RequestMethod.GET,RequestMethod.POST})
+//       public ModelAndView StudentReportPageForAdmin(ModelAndView model,@PathVariable String firstname,
+//               @PathVariable String lastname,@PathVariable String studentclass){
+//           
+//           model.setViewName("StudentAdminReport");
+//       return model;
+//       }
+       
+       
+       
+       
+       @RequestMapping(value="/parentforum",method={RequestMethod.GET})
+       public ModelAndView ParentForumPage(ModelAndView model) {
+       
+       model.setViewName("ParentForumPage");
+       return model;
+       }
+    
+       
+            
+       @RequestMapping(value="/newlanding",method={RequestMethod.GET})
+       public ModelAndView NewIndexPage(ModelAndView model) {
+       
+       model.setViewName("newlanding");
+       return model;
+       }
+       
+  
     
 }

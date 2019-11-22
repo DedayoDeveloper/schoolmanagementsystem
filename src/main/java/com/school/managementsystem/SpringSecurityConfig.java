@@ -7,17 +7,16 @@ package com.school.managementsystem;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -31,11 +30,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
     
     
         @Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private DataSource dataSource;
  
+        @Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
         
         
         String users_query = "select username,password, enabled from users where username=?";
@@ -51,6 +54,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 				.passwordEncoder(passwordEncoder);
 
 	}
+        
+        
+       
 
         @Override
 	public void configure(WebSecurity web) throws Exception {
@@ -59,23 +65,27 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/*").permitAll()
+		http.authorizeRequests().antMatchers("/*" , "/index").permitAll()
 				.antMatchers("/resources/**").permitAll()
 				.antMatchers("/user/**").access("hasRole('ROLE_USER')").anyRequest().authenticated().and().formLogin()
 				.loginPage("/")
 				.loginProcessingUrl("/signin")
 				.defaultSuccessUrl("/welcome",true)
-				.failureUrl("/login?error=true")
+				.failureUrl("/signin?error=true")
 				.usernameParameter("username")
 				.passwordParameter("password").and()
-				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
+				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/index").and()
 				.exceptionHandling().accessDeniedPage("/access-denield").and().csrf().disable();
 	}
         
-        	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		return bCryptPasswordEncoder;
-	}
+        
+        
+        
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception        
+    {
+        return super.authenticationManagerBean();
+    }
 
 }

@@ -11,6 +11,7 @@
     <groupId>com.school</groupId>
     <artifactId>managementsystem</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>managementsystem</name>
     <description>Demo project for Spring Boot</description>
 
@@ -39,6 +40,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        
+<!--        <dependency>
+            <groupId>org.springframework.mobile</groupId>
+            <artifactId>spring-mobile-device</artifactId>
+            <version>1.1.5.RELEASE</version>
+        </dependency>
+        -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mobile -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mobile</artifactId>
+            <version>1.5.22.RELEASE</version>
+        </dependency>
+
                 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -68,6 +83,9 @@
             <scope>provided</scope>
         </dependency>
                 
+      
+        
+        
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
@@ -95,31 +113,13 @@
             <version>1.2</version>
         </dependency>
 
+            
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
                    
-        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
-<!--        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>5.1.6.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>5.1.6.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>5.1.6.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>5.1.6.RELEASE</version>
-        </dependency>-->
+ 
                 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
            
@@ -130,28 +130,15 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+        
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>5.1.6.RELEASE</version>
         </dependency>
 
-         
-<!--       <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.1.10.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>5.1.10.RELEASE</version>
-        </dependency>-->
-<!--      <dependency>
-	    <groupId>javax.mail</groupId>
-	    <artifactId>mail</artifactId>
-	    <version>1.4.7</version>
-    </dependency>-->
 
 
         <!--		 JSTL for JSP -->
@@ -195,6 +182,7 @@
     
 
     <build>
+        <finalName>${artifactId}</finalName>
         <plugins>
                     
             <plugin>

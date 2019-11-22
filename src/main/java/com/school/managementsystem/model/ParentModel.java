@@ -5,18 +5,14 @@
  */
 package com.school.managementsystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 
 /**
  *
  * @author oreoluwa
  */
 
-@Table(name="users")
+
 public class ParentModel {
     
   
@@ -32,6 +28,17 @@ public class ParentModel {
     private String username,email,phonenumber,password;
     private String firstname;
     private String lastname;
+    private String emergencycontact;
+
+    public String getEmergencycontact() {
+        return emergencycontact;
+    }
+
+    public void setEmergencycontact(String emergencycontact) {
+        this.emergencycontact = emergencycontact;
+    }
+    
+    
 
     public String getFirstname() {
         return firstname;

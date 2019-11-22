@@ -28,13 +28,13 @@ public interface ParentInterface{
       public List<Teacher> searchTeacherForParent(String subjectname);
       public boolean SendComplainToAdmin(String username,String complain);
       public List<User> getParentComplain();
-      public boolean getMyChild(String firstname,String lastname,String sex,String age,String username);
+      public boolean getMyChild(String firstname,String lastname,String sex,String age,String username,String studentclass);
       public List<Student> getMyChildList(String username);
       public String getTeacherName(String firstname,String lastname);
       public List<Message> getAllMessagesSentByParent(String username);
       public int[] deleteStudentForParent(String array[]);
        public List<ParentModel> getAllParentUsersForProfile(String username);
-        public boolean UpdateParentProfile(String firstname,String lastname,String email,String phonenumber,String name);
+        public boolean UpdateParentProfile(String firstname,String lastname,String email,String phonenumber,String emergencycontact,String name);
         public int[] deleteParentForAdmin(String array[]);
 //        public void SendEmail(String toAddress, String fromAddress, String subject, String msgBody);
 

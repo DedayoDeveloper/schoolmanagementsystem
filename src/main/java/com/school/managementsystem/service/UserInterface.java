@@ -7,6 +7,7 @@ package com.school.managementsystem.service;
 
 import com.school.managementsystem.model.Classess;
 import com.school.managementsystem.model.NonTeaching;
+import com.school.managementsystem.model.ParentModel;
 import com.school.managementsystem.model.Student;
 import com.school.managementsystem.model.Subject;
 import com.school.managementsystem.model.User;
@@ -17,6 +18,8 @@ import java.util.List;
  * @author oreoluwa
  */
 public interface UserInterface {
+    
+    
     
        public String getUserRoles(String username);
        public List<User> getUserByRole(String userrole);
@@ -38,4 +41,6 @@ public interface UserInterface {
          public int[] deleteClassForAdmin(String array[]);
          public String getClassTeacherForAdmin(String classassigned);
          public List<Student> getClassStudentsForAdmin(String studentclass);
+         public boolean CheckIfEmailExist(String email);
+         public List<ParentModel> searchParentForAdmin(String email);
 }

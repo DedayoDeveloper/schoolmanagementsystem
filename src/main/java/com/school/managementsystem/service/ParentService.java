@@ -17,8 +17,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +67,7 @@ public class ParentService implements ParentInterface {
     public boolean RegsiterParentUser(String firstname,String lastname, String username, String email, String phonenumber, String password) {
         boolean register = false;
         String sql = "insert into users (firstname,lastname,username,email,phonenumber,password) values (?,?,?,?,?,?)";
-
+           System.out.println("WE ARE HERE!");
         String EncryptedPassword = passwordencoder.encode(password);
         int registerUser = jdbcTemplate.update(sql, new Object[]{firstname,lastname,username, email, phonenumber, EncryptedPassword});
         if (registerUser > 0) {
@@ -96,6 +94,7 @@ public class ParentService implements ParentInterface {
              parent.setUsername(rs.getString("username"));
              parent.setEmail(rs.getString("email"));
              parent.setPhonenumber(rs.getString("phonenumber"));
+             parent.setEmergencycontact(rs.getString("emergencycontact"));
             return parent;
         }
     }
@@ -103,7 +102,7 @@ public class ParentService implements ParentInterface {
     
          @Override
          public List<ParentModel> getAllParentUsers(String limit){
-         String sql = "select id,firstname,lastname,username,email,phonenumber from users where usertypename = 'parent' " + limit;
+         String sql = "select id,firstname,lastname,username,email,phonenumber,emergencycontact from users where usertypename = 'parent' " + limit;
          List<ParentModel> getAllParents = jdbcTemplate.query(sql, new parentMapper());
          return getAllParents;
          }
@@ -111,7 +110,7 @@ public class ParentService implements ParentInterface {
          
             @Override
          public List<ParentModel> getAllParentUsersForProfile(String username){
-         String sql = "select id,firstname,lastname,username,email,phonenumber from users where usertypename = 'parent' and username = ?";
+         String sql = "select id,firstname,lastname,username,email,phonenumber,emergencycontact from users where usertypename = 'parent' and username = ?";
          List<ParentModel> getAllParents = jdbcTemplate.query(sql, new Object[]{username}, new parentMapper());
          return getAllParents;
          }
@@ -157,6 +156,7 @@ public class ParentService implements ParentInterface {
              teacher.setClassassigned(rs.getString("classassigned"));
              teacher.setSex(rs.getString("sex"));
              teacher.setPhonenumber(rs.getString("phonenumber"));
+             teacher.setUsername(rs.getString("username"));
             return teacher;
         }
     }
@@ -196,6 +196,7 @@ public class ParentService implements ParentInterface {
         System.out.println("sqqq:" + sql);
 
         searchMyTeacher = jdbcTemplate.query(sql, new Object[]{subjectname}, new teacherSearchMapper());
+            System.out.println("searchMyTeacher + " + searchMyTeacher);
 
         return searchMyTeacher.size() > 0 ? searchMyTeacher : null;
     }
@@ -205,7 +206,7 @@ public class ParentService implements ParentInterface {
         
         @Override
         public List<Teacher> GetAllTeachersForParents(){
-        String sql = "select id,firstname,lastname,phonenumber,classassigned,sex from users where usertypename = 'teacher'";
+        String sql = "select id,firstname,lastname,phonenumber,classassigned,sex,username from users where usertypename = 'teacher'";
         List<Teacher> getTeachers = jdbcTemplate.query(sql, new teacherParentMapper());
         return getTeachers;
         }
@@ -329,19 +330,20 @@ public class ParentService implements ParentInterface {
              student.setLastname(rs.getString("lastname"));
              student.setAge(rs.getString("age"));
              student.setSex(rs.getString("sex"));
+             student.setStudentclass(rs.getString("studentclass"));
             
             return student;
         }
     }
          
                @Override
-               public boolean getMyChild(String firstname,String lastname,String sex,String age,String username){
+               public boolean getMyChild(String firstname,String lastname,String sex,String age,String username,String studentclass){
                    boolean value = false;
-               String sql = "select id,firstname,lastname,sex,age from tbl_students where firstname = ? and lastname = ? and sex = ? and age = ?";
-               List<Student> getmychild = jdbcTemplate.query(sql, new Object[]{firstname,lastname,sex,age}, new getMyChildMapper());
+               String sql = "select id,firstname,lastname,sex,age,studentclass from tbl_students where firstname = ? and lastname = ? and sex = ? and age = ? and studentclass = ?";
+               List<Student> getmychild = jdbcTemplate.query(sql, new Object[]{firstname,lastname,sex,age,studentclass}, new getMyChildMapper());
                if(!getmychild.isEmpty()){
-               String sql1 = "insert into tbl_parentchild (firstname,lastname,sex,age,username) values (?,?,?,?,?)";
-               int RegisterChild = jdbcTemplate.update(sql1, new Object[]{firstname,lastname,sex,age,username});
+               String sql1 = "insert into tbl_parentchild (firstname,lastname,sex,age,username,studentclass) values (?,?,?,?,?,?)";
+               int RegisterChild = jdbcTemplate.update(sql1, new Object[]{firstname,lastname,sex,age,username,studentclass});
                value = true;
                }
                return value;
@@ -351,7 +353,7 @@ public class ParentService implements ParentInterface {
                
                @Override
                public List<Student> getMyChildList(String username){
-               String sql = "select id,firstname,lastname,sex,age from tbl_parentchild where username = ?";
+               String sql = "select id,firstname,lastname,sex,age,studentclass from tbl_parentchild where username = ?";
                List<Student> myChildren = jdbcTemplate.query(sql, new Object[]{username}, new getMyChildMapper());
                return myChildren;
                }
@@ -407,10 +409,10 @@ public class ParentService implements ParentInterface {
                
                
      @Override
-     public boolean UpdateParentProfile(String firstname,String lastname,String email,String phonenumber,String name){
+     public boolean UpdateParentProfile(String firstname,String lastname,String email,String phonenumber,String emergencycontact,String name){
          boolean value = false;
-     String sql = "update users set firstname = ?,lastname = ?,email = ?,phonenumber = ? where username = ?";
-     int updateProfile = jdbcTemplate.update(sql, new Object[]{firstname,lastname,email,phonenumber,name});
+     String sql = "update users set firstname = ?,lastname = ?,email = ?,phonenumber = ?,emergencycontact = ? where username = ?";
+     int updateProfile = jdbcTemplate.update(sql, new Object[]{firstname,lastname,email,phonenumber,emergencycontact,name});
      if(updateProfile > 0){
      value = true;
      }

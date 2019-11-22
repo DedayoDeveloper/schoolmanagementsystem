@@ -1,0 +1,32 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 1, 2018, 10:15:57 AM
+    Author     : SuperSoft Technology
+*/
+
+
+background{
+    background-image: url("../img/index_invoice.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: -webkit-linear-gradient(45deg, rgba(83, 125, 210, 0.4), rgba(178, 30, 123, 0.4) 100%);
+    background: -webkit-gradient(linear, 45deg, from(rgba(29, 236, 197, 0.4)), to(rgba(96, 0, 136, 0.4)));
+}
+.box{
+    margin-top: 8%;
+}
+
+.boxlogin{
+    margin-top: 12%;
+}
+.card {
+    background-color: rgba(179, 217, 255, 0.8)
+/*    background-color: rgba(229, 228, 255, 0.5);*/
+}
+/*.sign_up{
+    margin-left: 5%;
+}*/
