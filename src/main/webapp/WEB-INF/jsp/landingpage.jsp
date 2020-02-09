@@ -8,6 +8,7 @@
 <%@page language="java" import="java.sql.*, javax.naming.*, javax.sql.DataSource,java.util.*"  session="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -168,15 +169,16 @@
                     </div>
                     <form action="signin" method="post" name="signInForm">
                         <div class="modal-body col-12" align="center">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-<!--                            <div class="form-group">
-                                <select class="form-control" style=" text-justify:  auto; color:  #001311;">
-                                    <option selected>Select User...</option> 
-                                    <option value="teacher">Teacher</option>
-                                    <option value="parent">Parent</option>
+                            <!--                            <div class="form-group">
+                                                            <select class="form-control" style=" text-justify:  auto; color:  #001311;">
+                                                                <option selected>Select User...</option>
+                                                                <option value="teacher">Teacher</option>
+                                                                <option value="parent">Parent</option>
 
-                                </select>
-                            </div>-->
+                                                            </select>
+                                                        </div>-->
                             <div class="form-group" style=" color: white;">
                                 <label>Username</label>
                                 <input type="text" name="username" placeholder="Username" class="form-control">

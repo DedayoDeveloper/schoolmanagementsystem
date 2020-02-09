@@ -27,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 
@@ -64,11 +67,11 @@ public class MainController {
     @Autowired
     EmailSenderImpl emailsender;
 
-    
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     
       @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView LandingPage(Device device)throws AuthenticationException  {
-         ModelAndView model = new ModelAndView();
+    public ModelAndView LandingPage(Device device,ModelAndView model )throws AuthenticationException  {
+
         model.addObject("title", "SMS");
         String deviceType = "browser";
         String platform = "browser";
@@ -81,7 +84,7 @@ public class MainController {
         } else if (device.isTablet()) {
             deviceType = "tablet";
         }
-          System.out.println("DEVICETYPE " + deviceType);
+          logger.info("DEVICETYPE " + deviceType);
         platform = device.getDevicePlatform().name();
          
         if (platform.equalsIgnoreCase("UNKNOWN")) {
@@ -95,22 +98,18 @@ public class MainController {
 
     @ResponseBody
     @RequestMapping(value = "/registerparentuser", method = {RequestMethod.POST})
-    public String RegisterParent(HttpServletRequest request, HttpSession session, String firstname, String lastname, String username,
-            String email, String phonenumber, String password) {
-            System.out.println("WE ARE HERE!");
+    public String RegisterParent(HttpServletRequest request, HttpSession session,
+                                 @RequestParam("firstname") String firstname,
+                                 @RequestParam("lastname") String lastname,
+                                 @RequestParam("username") String username,
+                                 @RequestParam("email") String email,
+                                 @RequestParam("phonenumber") String phonenumber,
+                                 @RequestParam("password") String password,ModelAndView model) {
+            logger.info("WE ARE HERE!");
         String alertMessage = "failed";
-        ModelAndView model = new ModelAndView();
-        firstname = request.getParameter("firstname");
-        lastname = request.getParameter("lastname");
-        username = request.getParameter("username");
-        email = request.getParameter("email");
-//        boolean checkEmail = userinterface.CheckIfEmailExist(email);
-//        if(checkEmail == true)
-        phonenumber = request.getParameter("phonenumber");
-        password = request.getParameter("password");
-        System.out.println("GOT HERE");
+        logger.info("GOT HERE");
         boolean RegisterParent = parent.RegsiterParentUser(firstname, lastname, username, email, phonenumber, password);
-        System.out.println("RegisterParent = " + RegisterParent);
+        logger.info("RegisterParent = " + RegisterParent);
         if (RegisterParent = true) {
 
 //            String toAddress = "Schoomanagement@gmail.com";

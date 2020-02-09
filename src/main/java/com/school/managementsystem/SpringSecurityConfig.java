@@ -34,19 +34,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired
 	private DataSource dataSource;
- 
+
+
         @Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-        
-        
-        String users_query = "select username,password, enabled from users where username=?";
 
+        String users_query = "select username,password, enabled from users where username=?";
 	String roles_query = "select username, role from user_roles where username =?";
         
-        
-        
+
         @Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource)
@@ -54,11 +52,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 				.passwordEncoder(passwordEncoder);
 
 	}
-        
-        
-       
 
-        @Override
+
+	@Override
 	public void configure(WebSecurity web) throws Exception {
 
 	}
@@ -75,7 +71,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 				.usernameParameter("username")
 				.passwordParameter("password").and()
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/index").and()
-				.exceptionHandling().accessDeniedPage("/access-denield").and().csrf().disable();
+				.exceptionHandling().accessDeniedPage("/access-denield");
 	}
         
         

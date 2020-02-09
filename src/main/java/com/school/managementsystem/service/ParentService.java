@@ -64,12 +64,14 @@ public class ParentService implements ParentInterface {
     
 
     @Override
-    public boolean RegsiterParentUser(String firstname,String lastname, String username, String email, String phonenumber, String password) {
+    public boolean RegsiterParentUser(String firstname,String lastname, String username,
+                                      String email, String phonenumber, String password) {
         boolean register = false;
         String sql = "insert into users (firstname,lastname,username,email,phonenumber,password) values (?,?,?,?,?,?)";
            System.out.println("WE ARE HERE!");
         String EncryptedPassword = passwordencoder.encode(password);
-        int registerUser = jdbcTemplate.update(sql, new Object[]{firstname,lastname,username, email, phonenumber, EncryptedPassword});
+        int registerUser = jdbcTemplate.update(sql, new Object[]{firstname,lastname,username, email,
+                phonenumber, EncryptedPassword});
         if (registerUser > 0) {
             System.out.println("USER REGISTERED");
             String sql1 = "insert into user_roles (username) values (?)";
